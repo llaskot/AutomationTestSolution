@@ -51,17 +51,37 @@ public class ApiBase {
     }
 
 
-    public List dataToListOfJson(List listOfMaps){
+    public List<String> dataToListOfJson(List<Map<String, String>> listOfMaps){
         Gson gson = new Gson();
+        List<String> listOfJson = new ArrayList<>();
         for (int i=0; i<listOfMaps.size(); i++) {
-            System.out.println("CLASSSSSSSS  "+listOfMaps.get(i));
-            Map row = (Map) listOfMaps.get(i);
-            Set keys = row.keySet();
-            System.out.println(keys);
+//            System.out.println("Map from excel "+listOfMaps.get(i));
+            /*
+            * getting each map collection
+            * */
+            Map<String,String> row = listOfMaps.get(i);
+            /*
+            * deleting empty values
+            */
+            row.entrySet().removeIf(y -> (y.getValue().equals("")));
+
+            /*deleting empty values in a longer way*/
+
+//            for (Map.Entry<String, String> entry: row.entrySet()) {
+//                String key = entry.getKey();
+//                String value = entry.getValue();
+//                if(value.equals("")){
+//                    row.remove(key);
+//                }
+//            }
+            /*
+            * Turn map without empty fields to json
+            */
             String requestBody = gson.toJson(row);
-            System.out.println(requestBody);
+            listOfJson.add(requestBody);
+//            System.out.println(requestBody);
         }
-        return null;
+        return listOfJson;
     }
 
 

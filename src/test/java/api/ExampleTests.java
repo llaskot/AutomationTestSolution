@@ -21,7 +21,12 @@ public class ExampleTests {
 
     @Test
     public void exampleTest2() {
-        base.dataToListOfJson(base.fromExcelToListOfMaps(PATH_TO_EXCEL_DOC, SHEET_NAME));
+
+        List<String> listOfJson = base.dataToListOfJson(base.fromExcelToListOfMaps(PATH_TO_EXCEL_DOC, SHEET_NAME));
+        System.out.println("Data for body requests  "+listOfJson);
+        System.out.println("body # 2 : "+listOfJson.get(1));
+        System.out.println("body # 3 : "+listOfJson.get(2));
+
     }
 
 }
