@@ -16,16 +16,16 @@ public class ApiBase {
         Connection connection;
         List<Map<String, String>> listOfMaps = new ArrayList<>();
         try {
-//            getting all the data from excel file
+           /* getting all the data from excel file */
             connection = fillo.getConnection(docPath);
             Recordset recordset = connection.executeQuery("Select * From "+sheet+" ");
             System.out.println("Rows quantity = "+recordset.getCount());
 
-//          getting column names
+         /* getting column names*/
             ArrayList<String> keys = recordset.getFieldNames();
             int size = keys.size();
 
-//              creating array of maps
+              /* creating array of maps*/
             while (recordset.next()) {
                 Map<String, String> values = new HashMap<>();
                 for (int i = 0; i  <size; i++) {
@@ -55,7 +55,6 @@ public class ApiBase {
         Gson gson = new Gson();
         List<String> listOfJson = new ArrayList<>();
         for (int i=0; i<listOfMaps.size(); i++) {
-//            System.out.println("Map from excel "+listOfMaps.get(i));
             /*
             * getting each map collection
             * */

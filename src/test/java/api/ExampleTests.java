@@ -8,15 +8,16 @@ import java.util.Map;
 import static api.Constants.ApiBodyConstants.PATH_TO_EXCEL_DOC;
 import static api.Constants.ApiBodyConstants.SHEET_NAME;
 
-public class ExampleTests {
+public class ExampleTests extends Base{
     ApiBase base = new ApiBase();
 
     @Test
     public void exampleTest1() {
-        System.out.println(base.fromExcelToListOfMaps("src/main/resources/Data.xlsx", "example1"));
+
         List<Map> myList = base.fromExcelToListOfMaps(PATH_TO_EXCEL_DOC, SHEET_NAME);
-        System.out.println(myList.get(0).get("column1"));
-        System.out.println(myList.get(2).get("column2"));
+        System.out.println(myList);
+        System.out.println(myList.get(0).get("param1"));
+        System.out.println(myList.get(2).get("param2"));
     }
 
     @Test
@@ -27,6 +28,11 @@ public class ExampleTests {
         System.out.println("body # 2 : "+listOfJson.get(1));
         System.out.println("body # 3 : "+listOfJson.get(2));
 
+    }
+
+    @Test(dataProvider = "Request")
+    public void exampleTest3 (String request){
+        System.out.println(request);
     }
 
 }
