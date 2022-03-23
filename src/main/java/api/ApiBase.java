@@ -5,9 +5,14 @@ import com.codoid.products.fillo.Connection;
 import com.codoid.products.fillo.Fillo;
 import com.codoid.products.fillo.Recordset;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.security.Key;
 import java.util.*;
+
+import static api.Constants.ApiBodyConstants.*;
+
 
 public class ApiBase {
 
@@ -19,7 +24,6 @@ public class ApiBase {
            /* getting all the data from excel file */
             connection = fillo.getConnection(docPath);
             Recordset recordset = connection.executeQuery("Select * From "+sheet+" ");
-            System.out.println("Rows quantity = "+recordset.getCount());
 
          /* getting column names*/
             ArrayList<String> keys = recordset.getFieldNames();
@@ -43,9 +47,6 @@ public class ApiBase {
         } catch (FilloException e) {
             e.printStackTrace();
         }
-//        System.out.println(listOfMaps);
-
-
         return listOfMaps;
 
     }
@@ -78,10 +79,94 @@ public class ApiBase {
             */
             String requestBody = gson.toJson(row);
             listOfJson.add(requestBody);
-//            System.out.println(requestBody);
         }
         return listOfJson;
     }
 
+
+
+    public List<JsonObject> dataToListOfJson2(List<Map<String, String>> listOfMaps){
+        Gson gson = new Gson();
+        List<JsonObject> listOfJson = new ArrayList<>();
+
+        for (int i=0; i<listOfMaps.size(); i++) {
+            /*
+             * getting each map collection
+             * */
+            Map<String,String> row = listOfMaps.get(i);
+            JsonObject jsElemMap = new JsonObject();
+
+            /*
+             * deleting keys that have empty values
+             */
+            row.entrySet().removeIf(y -> (y.getValue().equals("")));
+
+            /*iteration map to change value classes and add them to json object */
+
+            for (Map.Entry<String, String> entry: row.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if (key.indexOf("**")>0) {
+                    int x =  key.indexOf("**");
+                    String keyWord = key.substring(0, x);
+
+                    /*work with Integer*/
+                    if (keyWord.equals(INT_VAL)){
+                        JsonElement a = gson.toJsonTree(Integer.parseInt(value));
+                        jsElemMap.add(key.substring(x+2), a);
+                    }
+                    /*work with Double*/
+                     else if (keyWord.equals(DOUBLE_VAL)){
+                        value = value.replace(",", ".");
+                        JsonElement a = gson.toJsonTree(Double.parseDouble(value));
+                        jsElemMap.add(key.substring(x+2), a);
+                    }
+                    /*work with Boolean*/
+                     else if (keyWord.equals(BOOLEAN_VAL)){
+                        JsonElement a = gson.toJsonTree(Boolean.parseBoolean(value));
+                        jsElemMap.add(key.substring(x+2), a);
+                    }
+                    /*work with JsonObjects */
+                    /*If Excel file contains sheet which name equals keyWord */
+                     else if (excelSheetNames(PATH_TO_EXCEL_DOC).contains(keyWord)){
+                         /*get this sheet as list of json*/
+                        ApiBase apiBase = new ApiBase();
+                        List aa = apiBase.dataToListOfJson2(apiBase.fromExcelToListOfMaps(PATH_TO_EXCEL_DOC,keyWord));
+                        /*and add one of json as value of current key*/
+                        jsElemMap.add(key.substring(x+2), gson.toJsonTree(aa.get(Integer.parseInt(value))));
+                     }
+                }else{
+                    /*If there is no keyWord*/
+                    jsElemMap.add(key, gson.toJsonTree(value) );
+                }
+
+            }
+            /* remove all keys with keyword */
+            row.entrySet().removeIf(y -> (y.getKey().contains("**")));
+
+            /*
+             * Turn map without empty fields to json
+             */
+
+            listOfJson.add(jsElemMap);
+        }
+        return listOfJson;
+    }
+
+    public List<String> excelSheetNames(String filePath){
+        Fillo fillo = new Fillo();
+        Connection connection =null;
+        List<String> names = new ArrayList<>();
+        try {
+            connection = fillo.getConnection(filePath);
+            names = connection.getMetaData().getTableNames();
+            connection.close();
+
+        } catch (FilloException filloException) {
+            connection.close();
+            filloException.printStackTrace();
+        }
+        return names;
+    }
 
 }

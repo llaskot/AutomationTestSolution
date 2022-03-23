@@ -1,5 +1,6 @@
 package api;
 
+import com.google.gson.JsonElement;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Map;
 
 import static api.Constants.ApiBodyConstants.PATH_TO_EXCEL_DOC;
 import static api.Constants.ApiBodyConstants.SHEET_NAME;
+import static io.restassured.RestAssured.given;
 
 public class ExampleTests extends Base{
     ApiBase base = new ApiBase();
@@ -14,7 +16,7 @@ public class ExampleTests extends Base{
     @Test
     public void exampleTest1() {
 
-        List<Map> myList = base.fromExcelToListOfMaps(PATH_TO_EXCEL_DOC, SHEET_NAME);
+        List<Map<String, String>> myList = base.fromExcelToListOfMaps(PATH_TO_EXCEL_DOC, SHEET_NAME);
         System.out.println(myList);
         System.out.println(myList.get(0).get("param1"));
         System.out.println(myList.get(2).get("param2"));
@@ -35,4 +37,25 @@ public class ExampleTests extends Base{
         System.out.println(request);
     }
 
+
+
+    @Test
+    public void exampleTest1_2() {
+
+        List<JsonElement> listOfJson = base.dataToListOfJson2(base.fromExcelToListOfMaps(PATH_TO_EXCEL_DOC, SHEET_NAME));
+        System.out.println("Data for body requests  " + listOfJson);
+        System.out.println("body # 2 : " + listOfJson.get(1));
+        System.out.println("body # 3 : " + listOfJson.get(2));
+    }
+
+    @Test(dataProvider = "Request2")
+    public void exampleTest1_3 (String request){
+        given()
+                .spec(requestPostEvents(request))
+                .when()
+                .log().body()
+                .post("/api");
+
+
+    }
 }
