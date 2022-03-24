@@ -10,8 +10,7 @@ import org.testng.annotations.DataProvider;
 
 import java.util.List;
 
-import static api.Constants.ApiBodyConstants.*;
-import static api.Constants.ApiBodyTestConstants.DOMAIN_URL;
+import static api.Constants.ApiBodyTestConstants.*;
 
 
 public class Base {

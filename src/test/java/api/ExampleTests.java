@@ -6,8 +6,10 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Map;
 
-import static api.Constants.ApiBodyConstants.PATH_TO_EXCEL_DOC;
-import static api.Constants.ApiBodyConstants.SHEET_NAME;
+
+
+import static api.Constants.ApiBodyTestConstants.PATH_TO_EXCEL_DOC;
+import static api.Constants.ApiBodyTestConstants.SHEET_NAME;
 import static io.restassured.RestAssured.given;
 
 public class ExampleTests extends Base{
@@ -18,8 +20,8 @@ public class ExampleTests extends Base{
 
         List<Map<String, String>> myList = base.fromExcelToListOfMaps(PATH_TO_EXCEL_DOC, SHEET_NAME);
         System.out.println(myList);
-        System.out.println(myList.get(0).get("param1"));
-        System.out.println(myList.get(2).get("param2"));
+        System.out.println(myList.get(0).get("shop_name"));
+        System.out.println(myList.get(2).get("сity"));
     }
 
     @Test
@@ -53,8 +55,8 @@ public class ExampleTests extends Base{
         given()
                 .spec(requestPostEvents(request))
                 .when()
-                .log().body()
-                .post("/api");
+                .log().body();
+
 
 
     }

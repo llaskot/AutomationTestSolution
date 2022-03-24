@@ -7,11 +7,11 @@ import com.codoid.products.fillo.Recordset;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.apache.commons.collections4.map.LinkedMap;
 
-import java.security.Key;
 import java.util.*;
 
-import static api.Constants.ApiBodyConstants.*;
+import static api.ApiConstants.ApiBodyConstants.*;
 
 
 public class ApiBase {
@@ -31,7 +31,7 @@ public class ApiBase {
 
               /* creating array of maps*/
             while (recordset.next()) {
-                Map<String, String> values = new HashMap<>();
+                Map<String, String> values = new LinkedMap<>();
                 for (int i = 0; i  <size; i++) {
 
                     String key = keys.get(i);
@@ -150,6 +150,8 @@ public class ApiBase {
 
             listOfJson.add(jsElemMap);
         }
+        System.out.println(listOfJson);
+
         return listOfJson;
     }
 

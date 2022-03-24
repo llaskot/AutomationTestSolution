@@ -1,6 +1,6 @@
 package api;
 
-public class Constants {
+public class ApiConstants {
 
 
         public static class ApiBodyConstants {
