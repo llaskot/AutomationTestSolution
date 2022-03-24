@@ -55,7 +55,8 @@ public class ExampleTests extends Base{
         given()
                 .spec(requestPostEvents(request))
                 .when()
-                .log().body();
+                .log().body()
+                .post();
 
 
 

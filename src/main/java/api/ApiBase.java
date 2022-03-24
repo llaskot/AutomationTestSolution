@@ -12,6 +12,7 @@ import org.apache.commons.collections4.map.LinkedMap;
 import java.util.*;
 
 import static api.ApiConstants.ApiBodyConstants.*;
+import static jdk.nashorn.internal.objects.NativeString.toLowerCase;
 
 
 public class ApiBase {
@@ -108,7 +109,7 @@ public class ApiBase {
                 String value = entry.getValue();
                 if (key.indexOf("**")>0) {
                     int x =  key.indexOf("**");
-                    String keyWord = key.substring(0, x);
+                    String keyWord = toLowerCase(key.substring(0, x));
 
                     /*work with Integer*/
                     if (keyWord.equals(INT_VAL)){
