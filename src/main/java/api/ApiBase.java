@@ -127,6 +127,20 @@ public class ApiBase {
                         JsonElement a = gson.toJsonTree(Boolean.parseBoolean(value));
                         jsElemMap.add(key.substring(x+2), a);
                     }
+                     
+                     
+                     
+                     
+                     /*work with array*/
+                     else if (keyWord.equals(ARRAY_VAL)&& excelSheetNames(PATH_TO_EXCEL_DOC).contains(key.substring(x+2))){
+                        List arr = arrayVal(PATH_TO_EXCEL_DOC, key.substring(x+2), Integer.parseInt(value));
+                        JsonElement a = gson.toJsonTree(arr);
+                        jsElemMap.add(key.substring(x+2), a);
+                    }
+                     
+                     
+                     
+                     
                     /*work with JsonObjects */
                     /*If Excel file contains sheet which name equals keyWord */
                      else if (excelSheetNames(PATH_TO_EXCEL_DOC).contains(keyWord)){
@@ -156,6 +170,26 @@ public class ApiBase {
         return listOfJson;
     }
 
+
+
+
+    public List arrayVal(String pathToExcel, String sheetName, int rowNumber){
+        List<JsonObject> x = dataToListOfJson2(fromExcelToListOfMaps(PATH_TO_EXCEL_DOC, sheetName));
+        JsonObject dataForArray = x.get(rowNumber);
+
+
+//        System.out.println(dataForArray.entrySet().stream().toArray());
+        List<Object> arr= new LinkedList<>();
+        for(String key : dataForArray.keySet()){
+            arr.add(dataForArray.get(key));
+        }
+//        System.out.println(arr);
+        return arr;
+    }
+    
+    
+    
+    /*getting names of sheets to list*/
     public List<String> excelSheetNames(String filePath){
         Fillo fillo = new Fillo();
         Connection connection =null;
@@ -171,5 +205,7 @@ public class ApiBase {
         }
         return names;
     }
+
+
 
 }
