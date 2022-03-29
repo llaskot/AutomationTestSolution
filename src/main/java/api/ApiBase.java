@@ -116,10 +116,10 @@ public class ApiBase {
                         JsonElement a = gson.toJsonTree(Integer.parseInt(value));
                         jsElemMap.add(key.substring(x+2), a);
                     }
-                    /*work with Double*/
-                     else if (keyWord.equals(DOUBLE_VAL)){
+                    /*work with Float*/
+                     else if (keyWord.equals(FLOAT_VAL)){
                         value = value.replace(",", ".");
-                        JsonElement a = gson.toJsonTree(Double.parseDouble(value));
+                        JsonElement a = gson.toJsonTree(Float.parseFloat(value));
                         jsElemMap.add(key.substring(x+2), a);
                     }
                     /*work with Boolean*/
@@ -129,7 +129,7 @@ public class ApiBase {
                     }
                      
                      
-                     
+
                      
                      /*work with array*/
                      else if (keyWord.equals(ARRAY_VAL)&& excelSheetNames(PATH_TO_EXCEL_DOC).contains(key.substring(x+2))){
@@ -165,7 +165,6 @@ public class ApiBase {
 
             listOfJson.add(jsElemMap);
         }
-        System.out.println(listOfJson);
 
         return listOfJson;
     }
@@ -174,16 +173,14 @@ public class ApiBase {
 
 
     public List arrayVal(String pathToExcel, String sheetName, int rowNumber){
-        List<JsonObject> x = dataToListOfJson2(fromExcelToListOfMaps(PATH_TO_EXCEL_DOC, sheetName));
+
+
+        List<JsonObject> x = dataToListOfJson2(fromExcelToListOfMaps(pathToExcel, sheetName));
         JsonObject dataForArray = x.get(rowNumber);
-
-
-//        System.out.println(dataForArray.entrySet().stream().toArray());
         List<Object> arr= new LinkedList<>();
         for(String key : dataForArray.keySet()){
             arr.add(dataForArray.get(key));
         }
-//        System.out.println(arr);
         return arr;
     }
     

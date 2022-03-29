@@ -64,23 +64,6 @@ public class ExampleTests extends Base{
 
     }
 
-    @Test
-    public void tryy(){
-        Gson gson = new Gson();
-        List a = base.arrayVal(PATH_TO_EXCEL_DOC,"paycheck",1);
-        System.out.println(a);
-        JsonElement b = gson.toJsonTree(a);
-        System.out.println(b);
-//        Gson gson = new Gson();
-//        List<JsonObject> el = base.dataToListOfJson2(base.fromExcelToListOfMaps(PATH_TO_EXCEL_DOC, "paycheck"));
-//        System.out.println(el.get(0));
-//        JsonObject jal = el.get(0);
-//        System.out.println(jal.entrySet().stream().toArray());
-//        List<Object> arr= new LinkedList<>();
-//        for(String key : jal.keySet()){
-//            arr.add(jal.get(key));
-//        }
-//        System.out.println(arr);
-    }
+
 
 }
