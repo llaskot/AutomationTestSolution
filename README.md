@@ -24,7 +24,7 @@ To point out which type to use for this parameter should add the keyword before 
 KeyWords:
 1. string - no keyWord
 2. boolean - Bool
-3. double - Doub
+3. float - flo
 4. int - Int
 
 
@@ -51,4 +51,15 @@ result   (num ** num column is not used on the sheet 'data' and just added to sh
 
 [{"user":{"active":true,"name":"Masha","age":35}}, {"user":{"active":false,"name":"Kolja","age":19}}, {"user":{"active":true,"name":"Vasja","age":22}}]
 
+6. Array - arr
 
+   When keyword arr is added, a sheet with the parameter name has to be added also. The row from this sheet will be used to get the values of this array.
+   The value type in the arr** smt column has to be Integer. It points off the line number in the second sheet.Numbering starts from 0.
+   All columns in the second sheet must have the same keywords (if that is necessary to point out it). The names of columns don't matter, but they have to be different from each other.
+   ![image](https://user-images.githubusercontent.com/83096193/160657683-0be872ab-9fbb-4029-a522-bcd95f513377.png)
+   
+   result:
+   ![image](https://user-images.githubusercontent.com/83096193/160658314-a16f8e08-eba4-4122-b769-58bb3f2ebb10.png)
+
+
+   
