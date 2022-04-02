@@ -28,7 +28,8 @@ public class Base {
 
     @DataProvider(name = "Request2")
     public Object[][] request2() {
-        List<JsonObject> listOfJson = base.dataToListOfJson2(base.fromExcelToListOfMaps(PATH_TO_EXCEL_DOC,SHEET_NAME));
+        List<JsonObject> listOfJson = base.dataToListOfJson2(base
+                .fromExcelToListOfMaps(PATH_TO_EXCEL_DOC,SHEET_NAME));
         String[][] arrayOfJson = new String[listOfJson.size()][1];
         for(int i = 0; i< listOfJson.size(); i++){
             arrayOfJson[i][0] = listOfJson.get(i).toString();
@@ -45,11 +46,11 @@ public class Base {
     }
 
 
-    static ResponseSpecification responseEvents() {
-        return new ResponseSpecBuilder()
-                .expectStatusCode(200)
-                .build();
-    }
+//    static ResponseSpecification responseEvents() {
+//        return new ResponseSpecBuilder()
+//                .expectStatusCode(200)
+//                .build();
+//    }
 
 
 }

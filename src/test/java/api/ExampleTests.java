@@ -59,9 +59,6 @@ public class ExampleTests extends Base{
                 .when()
                 .log().body()
                 .post();
-
-
-
     }
 
 

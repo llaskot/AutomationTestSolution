@@ -17,14 +17,18 @@ import static jdk.nashorn.internal.objects.NativeString.toLowerCase;
 
 public class ApiBase {
 
+    public static String PATH_TO_EXCEL_DOC = "";
+
     public List fromExcelToListOfMaps (String docPath, String sheet)  {
+        PATH_TO_EXCEL_DOC = docPath;
         Fillo fillo = new Fillo();
         Connection connection;
         List<Map<String, String>> listOfMaps = new ArrayList<>();
         try {
            /* getting all the data from excel file */
-            connection = fillo.getConnection(docPath);
-            Recordset recordset = connection.executeQuery("Select * From "+sheet+" ");
+            connection = fillo.getConnection(PATH_TO_EXCEL_DOC);
+            Recordset recordset = connection.executeQuery("Select * From "
+                    +sheet+" ");
 
          /* getting column names*/
             ArrayList<String> keys = recordset.getFieldNames();
@@ -145,8 +149,8 @@ public class ApiBase {
                     /*If Excel file contains sheet which name equals keyWord */
                      else if (excelSheetNames(PATH_TO_EXCEL_DOC).contains(keyWord)){
                          /*get this sheet as list of json*/
-                        ApiBase apiBase = new ApiBase();
-                        List aa = apiBase.dataToListOfJson2(apiBase.fromExcelToListOfMaps(PATH_TO_EXCEL_DOC,keyWord));
+
+                        List aa = dataToListOfJson2(fromExcelToListOfMaps(PATH_TO_EXCEL_DOC,keyWord));
                         /*and add one of json as value of current key*/
                         jsElemMap.add(key.substring(x+2), gson.toJsonTree(aa.get(Integer.parseInt(value))));
                      }
